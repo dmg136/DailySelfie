@@ -48,26 +48,23 @@ public class ImageViewListAdapter extends ArrayAdapter<RelativeLayout> {
         TextView displayTextView = (TextView) v.findViewById(R.id.selfieText);
 
         if (currentImageView != null) {
-            //int targetW = displayImageView.getWidth();
-            //int targetH = displayImageView.getHeight();
-            int targetW = 1;
-            int targetH = 1;
+            //int targetW = 1;
+            //int targetH = 1;
 
             // Get the dimensions of the bitmap
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-            bmOptions.inJustDecodeBounds = true;
-            BitmapFactory.decodeFile(currentTextView.getText().toString(), bmOptions);
-            //int photoW = bmOptions.outWidth;
-            //int photoH = bmOptions.outHeight;
-            int photoW = 2;
-            int photoH = 2;
+            //bmOptions.inJustDecodeBounds = true;
+            //BitmapFactory.decodeFile(currentTextView.getText().toString(), bmOptions);
+            //int photoW = 2;
+            //int photoH = 2;
 
             // Determine how much to scale down the image
-            int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+            //int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
 
             // Decode the image file into a Bitmap sized to fill the View
             bmOptions.inJustDecodeBounds = false;
-            bmOptions.inSampleSize = scaleFactor;
+            //bmOptions.inSampleSize = scaleFactor;
+            bmOptions.inSampleSize = 1;
             bmOptions.inPurgeable = true;
 
             Bitmap bitmap = BitmapFactory.decodeFile(currentTextView.getText().toString(), bmOptions);
