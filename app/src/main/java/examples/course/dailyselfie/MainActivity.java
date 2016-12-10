@@ -10,10 +10,13 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,6 +40,33 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         listViewPictures = (ListView) findViewById(R.id.picture_list_view);
+
+        listViewPictures.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                RelativeLayout newRelativeLayout = (RelativeLayout) adapterView.getItemAtPosition(i);
+                ImageView newImageView = (ImageView) newRelativeLayout.findViewById(R.id.selfieImage);
+                TextView newTextView = (TextView) newRelativeLayout.findViewById(R.id.selfieText);
+
+                //Toast.makeText(getApplicationContext(), "Clicked listView " + i, Toast.LENGTH_SHORT).show();
+
+                Intent displayImageIntent = new Intent(getApplicationContext(), DisplayImageActivity.class);
+                //Intent displayImageIntent = new Intent(Intent.ACTION_VIEW);
+                //displayImageIntent.setData(Uri.parse(newTextView.getText().toString()));
+                displayImageIntent.putExtra("imageLocation", newTextView.getText().toString());
+
+                if (displayImageIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(displayImageIntent);
+                }
+
+                else {
+                    Toast.makeText(getApplicationContext(), "Could not display image", Toast.LENGTH_SHORT).show();
+                }
+                //Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                //based on item add info to intent
+                //startActivity(intent);
+            }
+        });
 
         imageViewList = new ArrayList<RelativeLayout>();
 
@@ -94,18 +124,9 @@ public class MainActivity extends AppCompatActivity {
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        //File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        String imageFileName = timeStamp;
         File storageDir = new File(Environment.getExternalStorageDirectory(), "my_images");
         storageDir.mkdirs();
-
-        /*
-        File image = File.createTempFile(
-                imageFileName,  // prefix
-                ".jpg",         // suffix
-                storageDir      // directory
-        );
-        */
 
 
         File image = new File(storageDir, imageFileName + ".png");
