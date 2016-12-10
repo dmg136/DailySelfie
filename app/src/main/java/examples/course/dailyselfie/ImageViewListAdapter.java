@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.List;
 
 
@@ -27,15 +28,6 @@ public class ImageViewListAdapter extends ArrayAdapter<RelativeLayout> {
     public ImageViewListAdapter(Context context, int resource, int textViewResourceId, List<RelativeLayout> objects) {
         super(context, resource, textViewResourceId, objects);
     }
-    /*
-    public ImageViewListAdapter(Context context, int textViewResourceId) {
-        super(context, textViewResourceId);
-    }
-
-    public ImageViewListAdapter(Context context, int resource, List<ClipData.Item> items) {
-        super(context, resource, items);
-    }
-    */
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -48,9 +40,6 @@ public class ImageViewListAdapter extends ArrayAdapter<RelativeLayout> {
             v = vi.inflate(R.layout.picture_list_item, null);
         }
 
-        //ImageView imageView = (ImageView) v.findViewById(R.id.imageView);
-        //TextView textView = (TextView) v.findViewById(R.id.textView);
-
         RelativeLayout relativeLayout = getItem(position);
         ImageView currentImageView = (ImageView) relativeLayout.findViewById(R.id.selfieImage);
         TextView currentTextView = (TextView) relativeLayout.findViewById(R.id.selfieText);
@@ -59,6 +48,8 @@ public class ImageViewListAdapter extends ArrayAdapter<RelativeLayout> {
         TextView displayTextView = (TextView) v.findViewById(R.id.selfieText);
 
         if (currentImageView != null) {
+            //int targetW = displayImageView.getWidth();
+            //int targetH = displayImageView.getHeight();
             int targetW = 1;
             int targetH = 1;
 
@@ -66,10 +57,10 @@ public class ImageViewListAdapter extends ArrayAdapter<RelativeLayout> {
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
             bmOptions.inJustDecodeBounds = true;
             BitmapFactory.decodeFile(currentTextView.getText().toString(), bmOptions);
-            int photoWBM = bmOptions.outWidth;
-            int photoHBM = bmOptions.outHeight;
-            int photoW = 1;
-            int photoH = 1;
+            //int photoW = bmOptions.outWidth;
+            //int photoH = bmOptions.outHeight;
+            int photoW = 2;
+            int photoH = 2;
 
             // Determine how much to scale down the image
             int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
@@ -84,8 +75,11 @@ public class ImageViewListAdapter extends ArrayAdapter<RelativeLayout> {
             displayImageView.setImageBitmap(bitmap);
         }
 
+        File directoryFolder = new File(currentTextView.getText().toString());
+        String fileName = directoryFolder.getName();
+
         if (currentTextView != null) {
-            displayTextView.setText(currentTextView.getText());
+            displayTextView.setText(fileName);
         }
 
         return v;

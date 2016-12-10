@@ -3,8 +3,6 @@ package examples.course.dailyselfie;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -185,36 +183,36 @@ public class MainActivity extends AppCompatActivity {
     private void setPic() {
 
         RelativeLayout newRelativeLayout = (RelativeLayout) getLayoutInflater().inflate(R.layout.picture_list_item, null);
-        ImageView newImageView = (ImageView) newRelativeLayout.findViewById(R.id.selfieImage);
+        //ImageView newImageView = (ImageView) newRelativeLayout.findViewById(R.id.selfieImage);
         TextView newTextView = (TextView) newRelativeLayout.findViewById(R.id.selfieText);
 
         // Get the dimensions of the View
         //int targetW = newImageView.getWidth();
         //int targetH = newImageView.getHeight();
-        int targetW = 100;
-        int targetH = 100;
+        //int targetW = 100;
+        //int targetH = 100;
 
         // Get the dimensions of the bitmap
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inJustDecodeBounds = true;
+        //BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        //bmOptions.inJustDecodeBounds = true;
 
-        BitmapFactory.decodeFile(currentFile.getAbsolutePath(), bmOptions);
+        //BitmapFactory.decodeFile(currentFile.getAbsolutePath(), bmOptions);
 
         //int photoW = bmOptions.outWidth;
         //int photoH = bmOptions.outHeight;
-        int photoW = 100;
-        int photoH = 100;
+        //int photoW = 100;
+        //int photoH = 100;
 
         // Determine how much to scale down the image
-        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+        //int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
 
         // Decode the image file into a Bitmap sized to fill the View
-        bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize = scaleFactor;
-        bmOptions.inPurgeable = true;
+        //bmOptions.inJustDecodeBounds = false;
+        //bmOptions.inSampleSize = scaleFactor;
+        //bmOptions.inPurgeable = true;
 
-        Bitmap bitmap = BitmapFactory.decodeFile(currentFile.getAbsolutePath(), bmOptions);
-        newImageView.setImageBitmap(bitmap);
+        //Bitmap bitmap = BitmapFactory.decodeFile(currentFile.getAbsolutePath(), bmOptions);
+        //newImageView.setImageBitmap(bitmap);
         newTextView.setText(mCurrentPhotoPath);
 
         imageViewListAdapter.add(newRelativeLayout);
