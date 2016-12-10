@@ -70,6 +70,21 @@ public class MainActivity extends AppCompatActivity {
 
         imageViewList = new ArrayList<RelativeLayout>();
 
+        File imageDirectory = new File(Environment.getExternalStorageDirectory(), "my_images");
+        File[] fileNames = imageDirectory.listFiles();
+
+        RelativeLayout tempRelativeLayout;
+        ImageView tempImageView;
+        TextView tempTextView;
+        for (File tempFile : fileNames) {
+            tempRelativeLayout = (RelativeLayout) getLayoutInflater().inflate(R.layout.picture_list_item, null);
+            tempTextView = (TextView) tempRelativeLayout.findViewById(R.id.selfieText);
+
+            tempTextView.setText(tempFile.getAbsolutePath());
+            imageViewList.add(tempRelativeLayout);
+
+        }
+
         imageViewListAdapter = new ImageViewListAdapter(this, R.layout.picture_list_item, imageViewList);
 
         listViewPictures.setAdapter(imageViewListAdapter);
