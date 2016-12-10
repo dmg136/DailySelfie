@@ -1,5 +1,7 @@
 package examples.course.dailyselfie;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -28,16 +30,31 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     static final int REQUEST_TAKE_PHOTO = 1;
+    private static final long INITIAL_ALARM_DELAY = 2 * 60 * 1000L;
     private String mCurrentPhotoPath;
     private File currentFile;
     private ListView listViewPictures;
-    List<RelativeLayout> imageViewList;
-    ImageViewListAdapter imageViewListAdapter;
+    private List<RelativeLayout> imageViewList;
+    private ImageViewListAdapter imageViewListAdapter;
+    private AlarmManager alarmManager;
+    private Intent selfieReminderIntent;
+    private PendingIntent selfieReminderPendingIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        selfieReminderIntent = new Intent(MainActivity.this, AlarmNotificationReceiver.class);
+        selfieReminderPendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, selfieReminderIntent, 0);
+
+        //alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, System.currentTimeMillis() + INITIAL_ALARM_DELAY, AlarmManager.INTERVAL_FIFTEEN_MINUTES, selfieReminderPendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + INITIAL_ALARM_DELAY, selfieReminderPendingIntent);
+
+        Toast.makeText(this, "Alarm should be set", Toast.LENGTH_SHORT).show();
+
 
         listViewPictures = (ListView) findViewById(R.id.picture_list_view);
 
@@ -70,7 +87,8 @@ public class MainActivity extends AppCompatActivity {
 
         imageViewList = new ArrayList<RelativeLayout>();
 
-        File imageDirectory = new File(Environment.getExternalStorageDirectory(), "my_images");
+        File imageDirectory = new File(Environment.getExternalStorageDirectory(), "my_selfies_lol");
+        imageDirectory.mkdirs();
         File[] fileNames = imageDirectory.listFiles();
 
         RelativeLayout tempRelativeLayout;
@@ -140,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = timeStamp;
-        File storageDir = new File(Environment.getExternalStorageDirectory(), "my_images");
+        File storageDir = new File(Environment.getExternalStorageDirectory(), "my_selfies_lol");
         storageDir.mkdirs();
 
 
