@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
+/*
+This activity displays the enlarged image after user clicks on item in the main listView
+ */
 public class DisplayImageActivity extends AppCompatActivity {
 
     @Override

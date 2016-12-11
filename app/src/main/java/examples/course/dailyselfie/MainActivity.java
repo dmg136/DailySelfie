@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private Intent selfieReminderIntent;
     private PendingIntent selfieReminderPendingIntent;
     static final String imageFolderName = "my_selfies_lol";
+    static final String imageExtension = ".png";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +76,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        imageViewList = new ArrayList<RelativeLayout>();
-
         File imageDirectory = new File(Environment.getExternalStorageDirectory(), imageFolderName);
 
         // Set up the image directory if it doesn't exist on filesystem
@@ -94,13 +93,18 @@ public class MainActivity extends AppCompatActivity {
         // Create a view for each image in the directory and add to listView
         RelativeLayout tempRelativeLayout;
         TextView tempTextView;
-        for (File tempFile : fileNames) {
-            tempRelativeLayout = (RelativeLayout) getLayoutInflater().inflate(R.layout.picture_list_item, null);
-            tempTextView = (TextView) tempRelativeLayout.findViewById(R.id.selfieText);
 
-            tempTextView.setText(tempFile.getAbsolutePath());
-            imageViewList.add(tempRelativeLayout);
+        imageViewList = new ArrayList<RelativeLayout>();
 
+        if (null != fileNames && fileNames.length > 0) {
+            for (File tempFile : fileNames) {
+                tempRelativeLayout = (RelativeLayout) getLayoutInflater().inflate(R.layout.picture_list_item, null);
+                tempTextView = (TextView) tempRelativeLayout.findViewById(R.id.selfieText);
+
+                tempTextView.setText(tempFile.getAbsolutePath());
+                imageViewList.add(tempRelativeLayout);
+
+            }
         }
 
         imageViewListAdapter = new ImageViewListAdapter(this, R.layout.picture_list_item, imageViewList);
@@ -164,10 +168,11 @@ public class MainActivity extends AppCompatActivity {
             storageDir.mkdirs();
         }
 
-        File image = new File(storageDir, imageFileName + ".png");
+        File image = new File(storageDir, imageFileName + imageExtension);
 
         // Store the location where the photo is saved
         mCurrentPhotoPath = image.getAbsolutePath();
+
         return image;
     }
 

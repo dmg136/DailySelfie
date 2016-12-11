@@ -7,6 +7,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+/*
+This class is modeled after the AlarmCreate application in the Programming Mobile Applications for Android Handheld Systems Coursera course
+ */
 public class AlarmNotificationReceiver extends BroadcastReceiver {
 
     // Notification ID to allow for future updates
